@@ -126,7 +126,7 @@ if st.button("Predict Duration"):
     }
 
    requests.post(
-    "http://api:8000/predict",
+    "https://nyc-api.onrender.com/predict",
     json=payload
 
     )

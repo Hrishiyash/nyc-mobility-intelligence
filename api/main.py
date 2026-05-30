@@ -4,7 +4,10 @@ import pandas as pd
 import joblib
 
 app = FastAPI(
-    title="NYC Taxi Trip Duration Prediction API"
+    title="NYC Taxi Trip Duration Prediction API",
+    docs_url="/docs",
+    redoc_url="/redoc"
+)
 )
 
 # Load model once when API starts

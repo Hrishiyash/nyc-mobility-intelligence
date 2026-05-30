@@ -1,17 +1,16 @@
-version: "3.9"
-
 services:
-
   api:
     build: .
-    command: python -m uvicorn api.main:app --host 0.0.0.0 --port 8000
+    container_name: api
     ports:
       - "8000:8000"
+    command: python -m uvicorn api.main:app --host 0.0.0.0 --port 8000
 
   dashboard:
     build: .
-    command: python -m streamlit run dashboard/streamlit_app.py
+    container_name: streamlit
     ports:
       - "8501:8501"
+    command: streamlit run dashboard/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
     depends_on:
       - api
