@@ -8,7 +8,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc"
 )
-)
+
 
 # Load model once when API starts
 model = joblib.load("models/xgboost_trip_duration.pkl")
