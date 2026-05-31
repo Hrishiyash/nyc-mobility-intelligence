@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import joblib
+import os
 
 app = FastAPI(
     title="NYC Taxi Trip Duration Prediction API",
@@ -11,7 +12,15 @@ app = FastAPI(
 
 
 # Load model once when API starts
-model = joblib.load("models/xgboost_trip_duration.pkl")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "xgboost_trip_duration.pkl")
+
+try:
+    model = joblib.load(model_path)
+except Exception as e:
+    print("MODEL LOAD ERROR:", e)
+    model = None
+
 
 
 class TripInput(BaseModel):
@@ -34,6 +43,8 @@ def home():
 
 @app.post("/predict")
 def predict(data: TripInput):
+    if model is None:
+        return {"error": "Model not loaded. Check server logs."}
 
     input_df = pd.DataFrame([{
         "passenger_count": data.passenger_count,
