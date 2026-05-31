@@ -3,6 +3,8 @@ from pydantic import BaseModel
 import pandas as pd
 import joblib
 import os
+import traceback
+import xgboost as xgb
 
 app = FastAPI(
     title="NYC Taxi Trip Duration Prediction API",
@@ -12,14 +14,14 @@ app = FastAPI(
 
 
 # Load model once when API starts
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(BASE_DIR, "xgboost_trip_duration.pkl")
+import xgboost as xgb
+import os
 
-try:
-    model = joblib.load(model_path)
-except Exception as e:
-    print("MODEL LOAD ERROR:", e)
-    model = None
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+model_path = os.path.join(BASE_DIR, "models", "xgboost_trip_duration.json")
+
+model = xgb.Booster()
+model.load_model(model_path)
 
 
 
